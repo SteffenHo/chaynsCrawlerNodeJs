@@ -26,35 +26,26 @@ let initChrome = async () => {
     return {chrome: chrome, protocol: protocol, Page: Page, Runtime: Runtime}
 }
 
-let run = async () => {
+let getIframeUrl = async (siteUrl) => {
 
     let {chrome, protocol, Page, Runtime} = await initChrome();
 
     try {
 
-        await Page.navigate({url: 'https://seo.chayns.net/'});
+        await Page.navigate({url: siteUrl});
         await Page.loadEventFired();
 
-        //////////////////////////////////
-        // YOU CAN NOW QUERY IN IFRAMES //
         const result = await Runtime.evaluate({
-            expression: `document.querySelector('iframe')`
+            expression: `document.querySelector('.cw-iframe').src`
 
         });
-        console.log(result);
-        const html = result.result.value;
-        console.log(html);
+       // console.log(result);
+        const url = result.result.value;
+        console.log(url);
 
-        //console.log(await Runtime.evaluate({expression: `document.querySelector('iframe')`, returnByValue: true}));
-        //////////////////////////////////
-
-        /*const result = await Runtime.evaluate({
-            expression: 'document.documentElement.innerHTML'
-
-        });
-        const html = result.result.value;
-        console.log(html);*/
-
+        if(url) {
+           await getIframeContent(url, Page, Runtime);
+        }
         console.log('..Finished');
     } catch (err) {
         console.log(err);
@@ -64,4 +55,18 @@ let run = async () => {
     chrome.kill();
 }
 
-run()
+let getIframeContent = async (iframeUrl, Page, Runtime) => {
+    await Page.navigate({url: iframeUrl});
+    await Page.loadEventFired();
+
+
+    const result = await Runtime.evaluate({
+        expression: `document.querySelector('#pagemaker-tapp-user').outerHTML`
+
+    });
+    // console.log(result);
+    const html = result.result.value;
+    console.log(html);
+}
+
+getIframeUrl('https://seo.chayns.net/')
