@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "chrome-launcher": "^0.12.0",
     "chrome-remote-interface": "^0.28.1"
   }
 }
