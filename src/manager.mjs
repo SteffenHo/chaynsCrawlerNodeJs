@@ -3,9 +3,10 @@ import requestXML from './request';
 import Crawler from "./crawler";
 
 export default  class Manager {
-    constructor(url) {
+    constructor(url, maxSites) {
         this.siteUrl = url;
         this.browser = undefined;
+        this.maxSites = maxSites
     }
 
 
@@ -30,7 +31,7 @@ export default  class Manager {
             }
         }
 
-        return urls;
+        return ['https://min-danmark.dk/EinfachDaenemark'] // ['https://seo.chayns.net/TestTapp'] //urls;
 
     }
 
@@ -40,7 +41,7 @@ export default  class Manager {
             const urls = await this.loadSitemap();
 
             const crawler = new Crawler(this.browser.getPage(), this.browser.getRuntime());
-            for(let i = 0, l = urls.length; i < l; i++){
+            for(let i = 0, l = urls.length; i < l && i < this.maxSites; i++){
                 let t = await crawler.start(urls[i]);
                 console.log(t);
             }

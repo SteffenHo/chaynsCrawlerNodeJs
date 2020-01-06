@@ -1,3 +1,4 @@
+import ContentAnalyzer from "./contentAnalyzer";
 
 export default class Crawler {
     constructor(page, runtime) {
@@ -15,16 +16,20 @@ export default class Crawler {
 
         let webData = await this.getWebData(url);
 
-        if(webData.iframeUrl){
-           result.iframeContent = await this.getIframeContent(webData.iframeUrl);
+        if (webData.iframeUrl) {
+            result.iframeContent = await this.getIframeContent(webData.iframeUrl)
+            let t = new ContentAnalyzer(result.iframeContent)
+            t.init();
+            t.getTagedHeadlines();
         }
-        if(webData.title){
+        if (webData.title) {
             result.title = webData.title;
         }
 
-        if(webData.tappId){
+        if (webData.tappId) {
             result.tappId = webData.tappId;
         }
+
 
         return result;
     }

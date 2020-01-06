@@ -1,3 +1,3 @@
 import Manager from './src/manager'
 
-let m = new Manager('https://bamboo-ahaus.de').run();
+let m = new Manager('https://min-danmark.dk/', 5).run();
