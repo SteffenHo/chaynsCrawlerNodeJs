@@ -10,11 +10,7 @@ export default class Crawler {
 
     async start(url) {
 
-        let result = {
-            title: undefined,
-            iframeContent: undefined,
-            tappId: undefined,
-        };
+        let result = {};
 
         let webData = await this.getWebData(url);
 
@@ -25,9 +21,14 @@ export default class Crawler {
             const texts = extractor.getText();
 
             // keyword to analyze are needed;
-            const tf_idfAnalysisResult = ContentAnalyzer.tf_idfAnalysisGetKeywords(StringHelper.joinStringArray(texts.wrapperContent), 10)
-            console.log('TF-IDF Result', tf_idfAnalysisResult);
+            //const tf_idfAnalysisResult = ContentAnalyzer.tf_idfAnalysisGetKeywords(StringHelper.joinStringArray(texts.wrapperContent), 10)
+            //console.log('TF-IDF Result', tf_idfAnalysisResult);
 
+            //keyword with RAKE analysis
+            console.log('text',StringHelper.replaceTextMarker(StringHelper.joinStringArray(texts.wrapperContent)));
+            const rakeAnalysisResult = ContentAnalyzer.rakeGetKeywords(StringHelper.joinStringArray(texts.wrapperContent), 20)
+            result.keywords = rakeAnalysisResult;
+            result.rawText = StringHelper.joinStringArray(texts.wrapperContent)
         }
         if (webData.title) {
             result.title = webData.title;

@@ -20,4 +20,15 @@ export default  class StringHelper{
         value = value.replace(/Ü/g, 'Ue');
         return value;
     }
+
+    static replaceTextMarker(string) {
+        let result = string;
+        result = result.replace(/\t/g, '');
+        result = result.replace(/\n/g, '');
+        result = result.replace(/\r/g, '');
+        result = result.replace(/  /g, ' ');
+        result = result.replace(/\b/g, '');
+
+        return result;
+    }
 }

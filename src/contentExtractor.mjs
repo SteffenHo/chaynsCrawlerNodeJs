@@ -18,7 +18,7 @@ export default class ContentExtractor{
         let texts = [];
         //console.log(all);
         for(let i = 0, l = all.length; i < l; i++) {
-            texts.push(StringHelper.replaceUmlaut(all[i].text));
+            texts.push(all[i].text);
         }
         return texts;
     }
@@ -28,7 +28,7 @@ export default class ContentExtractor{
         let texts = [];
         //console.log(all);
         for(let i = 0, l = all.length; i < l; i++) {
-            texts.push(StringHelper.replaceUmlaut(all[i].text));
+            texts.push(all[i].text);
         }
         return texts;
     }
@@ -42,7 +42,7 @@ export default class ContentExtractor{
             if(headlines && headlines.length > 0) {
                 let headlineTexts = [];
                 for(let i = 0, l = headlines.length; i < l; i++) {
-                    headlineTexts.push(StringHelper.replaceUmlaut(headlines[i].text));
+                    headlineTexts.push(headlines[i].text);
                 }
                 tagedHeadlines.push({headline: i, appearances: headlineTexts})
             }

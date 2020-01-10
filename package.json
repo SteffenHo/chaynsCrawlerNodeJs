@@ -15,7 +15,7 @@
     "natural": "^0.6.3",
     "node-fetch": "^2.6.0",
     "node-html-parser": "^1.1.16",
-    "node-rake": "^1.0.1",
+    "rake-js": "^0.1.1",
     "xml-js": "^1.6.11"
   }
 }
