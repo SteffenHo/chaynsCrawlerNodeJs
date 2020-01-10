@@ -1,4 +1,6 @@
+import ContentExtractor from "./contentExtractor";
 import ContentAnalyzer from "./contentAnalyzer";
+import StringHelper from "./stringHelper";
 
 export default class Crawler {
     constructor(page, runtime) {
@@ -18,9 +20,14 @@ export default class Crawler {
 
         if (webData.iframeUrl) {
             result.iframeContent = await this.getIframeContent(webData.iframeUrl)
-            let t = new ContentAnalyzer(result.iframeContent)
-            t.init();
-            t.getTagedHeadlines();
+            let extractor = new ContentExtractor(result.iframeContent);
+            extractor.init();
+            const texts = extractor.getText();
+
+            // keyword to analyze are needed;
+            const tf_idfAnalysisResult = ContentAnalyzer.tf_idfAnalysisGetKeywords(StringHelper.joinStringArray(texts.wrapperContent), 10)
+            console.log('TF-IDF Result', tf_idfAnalysisResult);
+
         }
         if (webData.title) {
             result.title = webData.title;
@@ -72,16 +79,31 @@ export default class Crawler {
         return result;
     }
 
-    async getIframeContent(iframeUrl) {
+    clicker() {
+        let e = document.querySelectorAll('.accordion__head');
+        for(let i = 0; i < e.length; i++){
+            e[i].click();
+        }
+    }
+    async getIframeContent(iframeUrl, openAccordions = true) {
         await this.Page.navigate({url: iframeUrl});
         await this.Page.loadEventFired();
 
+        if(openAccordions) {
+            //Cannot open accordion because of missing click listner. Ask pagemaker to fix it.
+           /* const openAccordion = await this.Runtime.evaluate({
+                expression: `${clicker}()`, //'document.body.appendChild("<div class="wrapperContent">Test</div>")'//`let e = document.querySelectorAll('.accordion__head');for(let i = 0; i < e.length; i++){e[i].click();}`
+                awaitPromise: true
+            });*/
+
+        }
 
         const result = await this.Runtime.evaluate({
             expression: `document.querySelector('#pagemaker-tapp-user').outerHTML`
 
         });
         const html = result.result.value;
+        //console.log(html);
         return html;
     }
 }
