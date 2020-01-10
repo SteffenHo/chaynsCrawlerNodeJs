@@ -28,9 +28,7 @@ export default  class ContentAnalyzer {
      */
     static rakeGetKeywords(string, amount) {
         const opts = {stopwords: CONSTS.getRAKEStopWords()};
-        console.log(rakeJs);
         const keywords = rakeJs.default(string, { language: 'german',  delimiters: ['.', ',', '-', ' '] });
-        console.log('rake', keywords);
         if(!amount){
             return keywords;
         }
