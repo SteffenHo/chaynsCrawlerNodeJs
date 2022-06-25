@@ -13,7 +13,7 @@
     "chrome-launcher": "^0.12.0",
     "chrome-remote-interface": "^0.28.1",
     "natural": "^0.6.3",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.7",
     "node-html-parser": "^1.1.16",
     "rake-js": "^0.1.1",
     "xml-js": "^1.6.11"
